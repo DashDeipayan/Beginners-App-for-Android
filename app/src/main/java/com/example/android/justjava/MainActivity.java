@@ -13,6 +13,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      *
      */
+
     public void submitOrder(View view) {
         createOrderSummary(quantity);
 
@@ -60,7 +62,12 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + number);
     }
     public void createOrderSummary(int number){
-        String order="Name: Deipayan Dash \n"+"Quantity: "+quantity+"\nTotal: $"+(quantity*5)+"\nThank You!";
+        CheckBox checkBoxWhippedCream = (CheckBox)findViewById(R.id.checkbox_whipped_cream);
+        CheckBox checkBoxChocolate = (CheckBox)findViewById(R.id.checkbox_chocolate);
+        boolean hasCheckedWhippedCream=checkBoxWhippedCream.isChecked();
+        boolean hasCheckedChocolate = checkBoxChocolate.isChecked();
+        String order="Name: Deipayan Dash \n"+"Add Whipped cream- "+hasCheckedWhippedCream+"\nAdd Chocolate- "+hasCheckedChocolate+
+                "\nQuantity: "+quantity+"\nTotal: $"+(quantity*5)+"\nThank You!";
         Context context=getApplicationContext();
         Toast message=Toast.makeText(context,"Order Created",Toast.LENGTH_SHORT);
         message.show();
