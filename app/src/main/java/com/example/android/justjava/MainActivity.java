@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-    int quantity=0;
+    int quantity=1;
 
     /**
      * This method is called when the order button is clicked.
@@ -42,14 +43,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void increment(View view){
-
-        quantity++;
+        if (quantity == 10){
+            quantity =10;
+            Toast toast = Toast.makeText(this,"Reached order limit!",Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            quantity++;
+        }
         display(quantity);
 
 
     }
     public void decrement(View view){
-        quantity--;
+        if (quantity ==1){
+            quantity = 1;
+            Toast toast = Toast.makeText(this,"Can't order less than 1 coffee!",Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            quantity--;
+        }
         display(quantity);
 
     }
@@ -62,12 +76,22 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + number);
     }
     public void createOrderSummary(int number){
+
+        EditText name_in_order = (EditText)findViewById(R.id.name_in_order);
+        String nameInOrder = name_in_order.getText().toString();
         CheckBox checkBoxWhippedCream = (CheckBox)findViewById(R.id.checkbox_whipped_cream);
         CheckBox checkBoxChocolate = (CheckBox)findViewById(R.id.checkbox_chocolate);
         boolean hasCheckedWhippedCream=checkBoxWhippedCream.isChecked();
         boolean hasCheckedChocolate = checkBoxChocolate.isChecked();
-        String order="Name: Deipayan Dash \n"+"Add Whipped cream- "+hasCheckedWhippedCream+"\nAdd Chocolate- "+hasCheckedChocolate+
-                "\nQuantity: "+quantity+"\nTotal: $"+(quantity*5)+"\nThank You!";
+        int basePrice = 5;
+        if (hasCheckedWhippedCream){
+            basePrice = basePrice + 1;
+        }
+        if (hasCheckedChocolate){
+            basePrice = basePrice + 2;
+        }
+        String order="Name: "+nameInOrder+"\nAdd Whipped cream- "+hasCheckedWhippedCream+"\nAdd Chocolate- "+hasCheckedChocolate+
+               "\nQuantity: "+number+"\nTotal: $"+(basePrice*number)+"\nThank You!";
         Context context=getApplicationContext();
         Toast message=Toast.makeText(context,"Order Created",Toast.LENGTH_SHORT);
         message.show();
